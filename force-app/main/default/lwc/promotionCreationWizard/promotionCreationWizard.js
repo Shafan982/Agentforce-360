@@ -2,7 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 
 /** TODO FOR THE CHALLENGE: import the state manager */
-import promotionStateManager from 'c/promotionStateManager/promotionStateManager';
+import promotionStateManager from 'c/promotionStateManager';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
