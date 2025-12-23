@@ -12,26 +12,33 @@ public with sharing class PromotionCreatorCtrl {
     // If the locator is NOT sent from the parameter, then create a new cursor.
     // Create a cursor to get Id, Name,and cgcloud__Category__c from the Product2 object
     
-    Database.Cursor locator;
-
+    
     integer position = (pageNumber - 1) * pageSize;
 
     // TODO FOR THE CHALLENGE: 
     // Define the number of records to be fetched - it is the lesser value either the page size, or the remaining records
-    // integer countToFetch = 
+     String countQuery = 'SELECT COUNT() FROM Product2';
+     integer totalRecords = Database.countQuery(countQuery);
+     integer remainingRecords = totalRecords - position;
+     integer countToFetch = Math.min(pageSize, remainingRecords);
 
     PagedResult result = new PagedResult();
     result.pageSize = pageSize;
     result.pageNumber = pageNumber;
 
     // TODO FOR THE CHALLENGE: Fetch the total number of records, and assign the value
-    // result.totalItemCount = 
+     result.totalItemCount = totalRecords;
     
     // TODO FOR THE CHALLENGE: Fetch the records and store it in result.records
-    // result.records = 
+    List<Product2> records = new List<Product2>();
+    if(countToFetch > 0){
+      String query = 'SELECT Id, Name, cgcloud__Category__c FROM Product2 ORDER BY Name LIMIT ' + countToFetch + ' OFFSET ' + position;
+      records = Database.query(query);
+    }
+     result.records = records;
 
     // TODO FOR THE CHALLENGE: send the locator to LWC
-    // result.locator = 
+     result.locator = JSON.serialize(pageNumber + 1); // Next page as locator
 
     return result;
   }
