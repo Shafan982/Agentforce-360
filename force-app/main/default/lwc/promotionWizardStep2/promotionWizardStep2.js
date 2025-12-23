@@ -1,13 +1,13 @@
 import { LightningElement, api, track } from 'lwc';
 
 /** TODO FOR THE CHALLENGE: import the state manager, and the context modules */
-
+import stateManager from 'c/promotionStateManager';
 import getProducts from '@salesforce/apex/PromotionCreatorCtrl.getProducts';
 
 export default class PromotionWizardStep2 extends LightningElement {
 
     /** TODO FOR THE CHALLENGE: initialize/inherit the state from the parent */
-
+    promotionState = stateManager;
     @track products = [];
     @track selectedProductsMap = new Map();
     
@@ -226,7 +226,7 @@ export default class PromotionWizardStep2 extends LightningElement {
 
         // Save selections to state
         const productsArray = Array.from(this.selectedProductsMap.values());
-        this.promotionState.value.updateProducts(productsArray);
+        this.promotionState.saveStepData(2, { chosenProducts: productsArray });
         
         this.error = null;
         return true;
